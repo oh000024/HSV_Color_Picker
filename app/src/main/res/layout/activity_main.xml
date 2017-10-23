@@ -94,7 +94,7 @@
             android:id="@+id/saturationSB"
             android:layout_width="fill_parent"
             android:layout_height="32dp"
-            android:max="1" />
+            android:max="100" />
 
     </FrameLayout>
 

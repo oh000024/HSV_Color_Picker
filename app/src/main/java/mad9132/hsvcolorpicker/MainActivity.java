@@ -75,30 +75,10 @@ public class MainActivity extends Activity implements Observer, SeekBar.OnSeekBa
         mModel = new HSVModel( settings.getFloat("hue",   0.0f),
                 settings.getFloat("saturation", 0.0f),
                 settings.getFloat("brightness",  0.0f) );
-//
-//        userDetails = getApplicationContext().getSharedPreferences(APPNAME, MODE_PRIVATE);
-//        if (appState != 0) {
-//            int rValue = userDetails.getInt("RED", HSVModel.MAX_RGB);
-//            mModel.setRed(rValue);
-//            int gValue = userDetails.getInt("GREEN", HSVModel.MIN_RGB);
-//            mModel.setGreen(gValue);
-//            int bValue = userDetails.getInt("BLUE", HSVModel.MIN_RGB);
-//            mModel.setBlue(bValue);
-//            int aValue = userDetails.getInt("ALPAH", HSVModel.MAX_ALPHA);
-//            mModel.setAlpha(aValue);
-//        } else {
-//            SharedPreferences.Editor edit = userDetails.edit();
-//            edit.clear();
-//            appState = 1;
-//            mModel.setHue(HSVModel.MIN_HSV);
-//            mModel.setSaturation(HSVModel.MIN_HSV);
-//            mModel.setBrightness(HSVModel.MIN_HSV);
-//            mModel.setAlpha( HSVModel.MAX_ALPHA );
-//        }
-//
+
 //        // The Model is observing this Controller (class MainActivity implements Observer)
         mModel.addObserver(this);
-//
+
 //        // reference each View
         mColorSwatch = (TextView) findViewById(R.id.colorSwatch);
         mHueSB = (SeekBar) findViewById(R.id.hueSB);
@@ -108,7 +88,7 @@ public class MainActivity extends Activity implements Observer, SeekBar.OnSeekBa
         mHueTV = (TextView) findViewById(R.id.hue);
         mSaturationTV = (TextView) findViewById(R.id.saturation);
         mBrightnessTV = (TextView) findViewById(R.id.brightness);
-//
+
 //        // set the domain (i.e. max) for each component
         mHueSB.setMax((int)HSVModel.MAX_HUE);
         mSaturationSB.setMax((int)HSVModel.MAX_SATURATION);
@@ -119,8 +99,6 @@ public class MainActivity extends Activity implements Observer, SeekBar.OnSeekBa
         mSaturationSB.setOnSeekBarChangeListener(this);
         mBrightnessSB.setOnSeekBarChangeListener(this);
 
-//
-//
 //        // initialize the View to the values of the Model
         this.updateView();
 
@@ -128,7 +106,7 @@ public class MainActivity extends Activity implements Observer, SeekBar.OnSeekBa
             @Override
             public boolean onLongClick(View view) {
 
-                String message = String.format("H:%3.0f\u00B0\nS:%3.1f%%\nB:%3.1f%%",mModel.getHue(),mModel.getSaturation(),mModel.getBrightness());
+                String message = String.format("H:%3.0f\u00B0\nS:%3.0f%%\nB:%3.0f%%",mModel.getHue(),mModel.getSaturation(),mModel.getBrightness());
                 Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                 return false;
             }
@@ -167,38 +145,6 @@ public class MainActivity extends Activity implements Observer, SeekBar.OnSeekBa
             case R.id.action_about:
                 mAboutDialog.show(getFragmentManager(), ABOUT_DIALOG_TAG);
                 return true;
-//
-//            case R.id.action_red:
-//                mModel.asRed();
-//                return true;
-//
-//            //TODO: handle the remaining menu items(DONE)
-//            case R.id.action_green:
-//                mModel.asGreen();
-//                return true;
-//
-//            case R.id.action_blue:
-//                mModel.asBlue();
-//                return true;
-//            case R.id.action_black:
-//                mModel.asBlack();
-//                return true;
-//            case R.id.action_cyan:
-//                mModel.asCyan();
-//                return true;
-//            case R.id.action_magenta:
-//                mModel.asMagenta();
-//                return true;
-//            case R.id.action_white:
-//                mModel.asWhite();
-//                return true;
-//            case R.id.action_yellow:
-//                mModel.asYellow();
-//                return true;
-//
-//            default:
-//                Toast.makeText(this, "MenuItem: " + item.getTitle(), Toast.LENGTH_LONG).show();
-//                return super.onOptionsItemSelected(item);
         }
         return true;
     }
@@ -279,8 +225,8 @@ public class MainActivity extends Activity implements Observer, SeekBar.OnSeekBa
         mColorSwatch.setBackgroundColor(
                 Color.HSVToColor(new float[]{
                         (mModel.getHue())
-                        , mModel.getSaturation()
-                        , (mModel.getBrightness())})
+                        , mModel.getSaturation()/100
+                        , (mModel.getBrightness()/100)})
         );
     }
 
@@ -317,13 +263,10 @@ public class MainActivity extends Activity implements Observer, SeekBar.OnSeekBa
 
         Color.colorToHSV(colorId,currentHSV);
 
-        mModel.setHue(currentHSV[0]);
-        mModel.setSaturation(currentHSV[1]);
-        mModel.setBrightness(currentHSV[2]);
+        mModel.setHSV(currentHSV[0],currentHSV[1]*100,currentHSV[2]*100);
+        updateColorSwatch();
 
-        mModel.setHSV(currentHSV[0],currentHSV[1],currentHSV[2]);
-        //updateColorSwatch();
-        String message = String.format("H:%3.0f\u00B0\nS:%3.1f%%\nB:%3.1f%%",mModel.getHue(),mModel.getSaturation(),mModel.getBrightness());
+        String message = String.format("H:%3.0f\u00B0\nS:%3.0f%%\nB:%3.0f%%",mModel.getHue(),mModel.getSaturation(),mModel.getBrightness());
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
 
     }

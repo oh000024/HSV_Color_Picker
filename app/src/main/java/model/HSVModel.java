@@ -6,12 +6,9 @@ import java.util.Observable;
  * The model holds the data.
  *
  * Model color.
- * Based on red, green, blue and alpha (transparency).
+ * Based on Hue, Saturation, Brigntness.
  *
- * RGB: integer values in the domain range of 0 to 255 (inclusive).
- * Alpha: integer value in the domain range of 0 to 255 (inclusive).
- *
- * @author Gerald.Hurdle@AlgonquinCollege.com
+ * @author Jake Oh. oh000024@AlgonquinCollegelive.com
  * @version 1.0
  */
 public class HSVModel extends Observable {
@@ -51,34 +48,17 @@ public class HSVModel extends Observable {
     public HSVModel(Float hue, Float saturation, Float brightness) {
         super();
 
-//        this.alpha = alpha;
         this.hue  = hue;
         this.saturation = saturation;
         this.brightness   = brightness;
     }
 
     public void asBlack()   { this.setHSV( getHue(), getSaturation(), getBrightness() ); }
-//    public void asBlue()    { this.setHSV( MIN_RGB, MIN_RGB, MAX_RGB ); }
-//    public void asCyan()    { this.setHSV( MIN_RGB, MAX_RGB, MAX_RGB ); }
-//    public void asGreen()   { this.setHSV( MIN_RGB, MAX_RGB, MIN_RGB ); }
-//    public void asMagenta() { this.setHSV( MAX_RGB, MIN_RGB, MAX_RGB ); }
-//    public void asRed()     { this.setHSV( MAX_RGB, MIN_RGB, MIN_RGB ); }
-//    public void asWhite()   { this.setHSV( MAX_RGB, MAX_RGB, MAX_RGB ); }
-//    public void asYellow()  { this.setHSV( MAX_RGB, MAX_RGB, MIN_RGB ); }
 
     // GETTERS
-//    public Integer getAlpha() { return alpha; }
     public float getHue()  { return hue; }
-//    public int     getColor() { return Color.argb( alpha, red, green, blue ); }
     public float getSaturation() { return saturation; }
     public float getBrightness()   { return brightness; }
-
-    // SETTERS
-//    public void setAlpha( Integer alpha ) {
-//        this.alpha = alpha;
-//
-//        this.updateObservers();
-//    }
 
     public void setHue(float hue) {
         this.hue = hue;
