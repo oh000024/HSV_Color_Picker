@@ -8,7 +8,7 @@
         android:showAsAction="always"
         android:title="@string/action_about" />
 
-    <!-- Colours, should always be in the overflow -->
+    <!-- Colours, should always be in the overflow
     <item
         android:id="@+id/action_black"
         android:showAsAction="never"
@@ -48,4 +48,5 @@
         android:id="@+id/action_white"
         android:showAsAction="never"
         android:title="@string/white" />
+        -->
 </menu>

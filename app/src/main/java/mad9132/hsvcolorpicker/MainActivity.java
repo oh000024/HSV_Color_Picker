@@ -14,6 +14,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Formatter;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -73,7 +74,7 @@ public class MainActivity extends Activity implements Observer, SeekBar.OnSeekBa
 //        mModel = new HSVModel();
         mModel = new HSVModel( settings.getFloat("hue",   0.0f),
                 settings.getFloat("saturation", 0.0f),
-                settings.getFloat("bright",  0.0f) );
+                settings.getFloat("brightness",  0.0f) );
 //
 //        userDetails = getApplicationContext().getSharedPreferences(APPNAME, MODE_PRIVATE);
 //        if (appState != 0) {
@@ -103,25 +104,21 @@ public class MainActivity extends Activity implements Observer, SeekBar.OnSeekBa
         mHueSB = (SeekBar) findViewById(R.id.hueSB);
         mSaturationSB = (SeekBar) findViewById(R.id.saturationSB);
         mBrightnessSB = (SeekBar) findViewById(R.id.brightnessSB);
-//        mAlphaSB = (SeekBar) findViewById( R.id.alphaSB );
 //
         mHueTV = (TextView) findViewById(R.id.hue);
         mSaturationTV = (TextView) findViewById(R.id.saturation);
         mBrightnessTV = (TextView) findViewById(R.id.brightness);
-//        mAlphaTV = (TextView) findViewById( R.id.alpha );
 //
-//        //TODO: setMax() for the remaining <SeekBar>s: green, blue and alpha(DONE)
 //        // set the domain (i.e. max) for each component
         mHueSB.setMax((int)HSVModel.MAX_HUE);
         mSaturationSB.setMax((int)HSVModel.MAX_SATURATION);
         mBrightnessSB.setMax((int)HSVModel.MAX_BRIGHTNESS);
-//        mAlphaSB.setMax( HSVModel.MAX_ALPHA );
+
 //        // register the event handler for each <SeekBar>
         mHueSB.setOnSeekBarChangeListener(this);
-//        //TODO: register the remaining <SeekBar>s: green, blue and alpha(DONE)
         mSaturationSB.setOnSeekBarChangeListener(this);
         mBrightnessSB.setOnSeekBarChangeListener(this);
-//        mAlphaSB.setOnSeekBarChangeListener( this );
+
 //
 //
 //        // initialize the View to the values of the Model
@@ -130,7 +127,8 @@ public class MainActivity extends Activity implements Observer, SeekBar.OnSeekBa
         mColorSwatch.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                String message = "H: " + mModel.getHue() + "°" + "\nS: " + mModel.getSaturation() + "%" + "\nV: " + mModel.getBrightness() + "%";
+
+                String message = String.format("H:%3.0f\u00B0\nS:%3.1f%%\nB:%3.1f%%",mModel.getHue(),mModel.getSaturation(),mModel.getBrightness());
                 Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                 return false;
             }
@@ -226,38 +224,26 @@ public class MainActivity extends Activity implements Observer, SeekBar.OnSeekBa
             case R.id.hueSB:
                 mModel.setHue((float)mHueSB.getProgress());
                 mHueTV.setText(getResources().getString(R.string.hueProgress, progress).toUpperCase());
-                keyString = HKEY;
-                rgbValue = mModel.getHue();
+//                keyString = HKEY;
+//                rgbValue = mModel.getHue();
                 break;
 //
-//            //TODO: case R.id.greenSB(DONE)
             case R.id.saturationSB:
                 mModel.setSaturation((float)mSaturationSB.getProgress());
                 mSaturationTV.setText(getResources().getString(R.string.saturationProgress, progress).toUpperCase());
-                keyString = SKEY;
-                rgbValue = mModel.getSaturation();
+//                keyString = SKEY;
+//                rgbValue = mModel.getSaturation();
                 break;
-//            //TODO: case R.id.blueSB(DONE)
+
             case R.id.brightnessSB:
                 mModel.setBrightness((float) mBrightnessSB.getProgress());
                 mBrightnessTV.setText(getResources().getString(R.string.brightnessProgress, progress).toUpperCase());
-                keyString = BKEY;
-                rgbValue = mModel.getBrightness();
+//                keyString = BKEY;
+//                rgbValue = mModel.getBrightness();
                 break;
-//            //TODO: case R.id.alphaSB(DONE)
-//            case R.id.alphaSB:
-//                mModel.setAlpha( mAlphaSB.getProgress() );
-//                mAlphaTV.setText( getResources().getString(R.string.alphaProgress, progress).toUpperCase() );
-//                keyString = "ALPHA";
-//                rgbValue = mModel.getAlpha();
-//                break;
-//
+
         }
-//
-//        userDetails = getApplicationContext().getSharedPreferences(APPNAME, MODE_PRIVATE);
-//        SharedPreferences.Editor edit = userDetails.edit();
-//        edit.putFloat(keyString, rgbValue);
-//        edit.commit();
+
     }
 
     @Override
@@ -277,9 +263,6 @@ public class MainActivity extends Activity implements Observer, SeekBar.OnSeekBa
             case R.id.brightnessSB:
                 mBrightnessTV.setText(R.string.brightness);
                 break;
-//            case R.id.alphaSB:
-//                mAlphaTV.setText(R.string.alpha );
-//                break;
         }
     }
 
@@ -287,13 +270,12 @@ public class MainActivity extends Activity implements Observer, SeekBar.OnSeekBa
     // Refresh the View to display the current values of the Model.
     @Override
     public void update(Observable observable, Object data) {
-//        Log.i( LOG_TAG, "The color (int) is: " + mModel.getColor() + "" );
 
         this.updateView();
     }
 
     private void updateColorSwatch() {
-        //GET the model's r,g,b,a values, and SET the background colour of the swatch <TextView>
+        //GET the model's hue,saturatoin, brightness values, and SET the background colour of the swatch <TextView>
         mColorSwatch.setBackgroundColor(
                 Color.HSVToColor(new float[]{
                         (mModel.getHue())
@@ -303,7 +285,6 @@ public class MainActivity extends Activity implements Observer, SeekBar.OnSeekBa
     }
 
     private void updateBrightnessB() {
-        //TODO: set the blueSB's progress to the model's blue value(DONE)
         mBrightnessSB.setProgress((int) mModel.getBrightness());
     }
 
@@ -313,13 +294,10 @@ public class MainActivity extends Activity implements Observer, SeekBar.OnSeekBa
     }
 
     private void updateHueSB() {
-        //GET the model's red value, and SET the red <SeekBar>
+        //GET the model's red value, and SET the Hue <SeekBar>
         mHueSB.setProgress((int) mModel.getHue());
     }
 
-    private void updateAlphaSB() {
-//        mAlphaSB.setProgress(mModel.getAlpha());
-    }
 
     // synchronize each View component with the Model
     public void updateView() {
@@ -327,7 +305,7 @@ public class MainActivity extends Activity implements Observer, SeekBar.OnSeekBa
         this.updateHueSB();
         this.updateSaturationSB();
         this.updateBrightnessB();
-        this.updateAlphaSB();
+//        this.updateAlphaSB();
     }
 
     public void onClick(View view) {
@@ -337,7 +315,6 @@ public class MainActivity extends Activity implements Observer, SeekBar.OnSeekBa
         ColorDrawable buttonColor = (ColorDrawable)but.getBackground();
         int colorId = buttonColor.getColor();
 
-
         Color.colorToHSV(colorId,currentHSV);
 
         mModel.setHue(currentHSV[0]);
@@ -346,54 +323,8 @@ public class MainActivity extends Activity implements Observer, SeekBar.OnSeekBa
 
         mModel.setHSV(currentHSV[0],currentHSV[1],currentHSV[2]);
         //updateColorSwatch();
-        switch (but.getId()) {
-            case R.id.blackButton:
-
-                Toast.makeText(getApplicationContext(), "BLACK", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.redButton:
-                Toast.makeText(getApplicationContext(), "RED", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.limeButton:
-                Toast.makeText(getApplicationContext(), "LIME", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.blueButton:
-                Toast.makeText(getApplicationContext(), "BULE", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.yellowButton:
-                Toast.makeText(getApplicationContext(), "YELLOW", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.cyanButton:
-                Toast.makeText(getApplicationContext(), "CYAN", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.magentaButton:
-                Toast.makeText(getApplicationContext(), "MAGENTA", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.silverButton:
-                Toast.makeText(getApplicationContext(), "SILVER", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.grayButton:
-                Toast.makeText(getApplicationContext(), "GRAY", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.maroonButton:
-                Toast.makeText(getApplicationContext(), "MAROON", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.oliveButton:
-                Toast.makeText(getApplicationContext(), "OLIVER", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.greenButton:
-                Toast.makeText(getApplicationContext(), "GREEN", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.purpleButton:
-                Toast.makeText(getApplicationContext(), "PURPLE", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.tealButton:
-                Toast.makeText(getApplicationContext(), "TEAL", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.navyButton:
-                Toast.makeText(getApplicationContext(), "NANY", Toast.LENGTH_SHORT).show();
-                break;
-        }
+        String message = String.format("H:%3.0f\u00B0\nS:%3.1f%%\nB:%3.1f%%",mModel.getHue(),mModel.getSaturation(),mModel.getBrightness());
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
 
     }
 }   // end of class
