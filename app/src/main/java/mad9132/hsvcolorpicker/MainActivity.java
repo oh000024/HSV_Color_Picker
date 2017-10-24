@@ -26,6 +26,7 @@ import model.HSVModel;
  * As the Controller:
  * a) event handler for the View
  * b) observer of the Model (HSVModel)
+ * c)to implement, test and deploy a guess a HSV color picker Android app
  * <p>
  * Features the Update / React Strategy.
  *
