@@ -14,9 +14,6 @@ import java.util.Observable;
 public class HSVModel extends Observable {
 
     // CLASS VARIABLES
-    public static final Integer MAX_ALPHA = 255;
-    public static final Integer MAX_RGB   = 255;
-    public static final Integer MIN_ALPHA = 0;
     public static final float MAX_HUE   = 359.0f;
     public static final float MIN_HSV   = 0.0f;
     public static final float MAX_SATURATION   = 100.0f;
@@ -96,7 +93,7 @@ public class HSVModel extends Observable {
 
     @Override
     public String toString() {
-        return "HSV [r=" + hue + " g=" + saturation + " b=" + brightness + "]";
+        return "HSV [h=" + hue + " s=" + saturation + " b=" + brightness + "]";
     }
 
     // Proof that my model is independent of any view.
