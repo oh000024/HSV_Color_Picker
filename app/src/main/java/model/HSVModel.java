@@ -50,7 +50,7 @@ public class HSVModel extends Observable {
         this.brightness   = brightness;
     }
 
-    public void asBlack()   { this.setHSV( getHue(), getSaturation(), getBrightness() ); }
+//    public void asBlack()   { this.setHSV( getHue(), getSaturation(), getBrightness() ); }
 
     // GETTERS
     public float getHue()  { return hue; }

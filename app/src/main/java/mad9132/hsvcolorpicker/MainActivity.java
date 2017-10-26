@@ -171,22 +171,16 @@ public class MainActivity extends Activity implements Observer, SeekBar.OnSeekBa
             case R.id.hueSB:
                 mModel.setHue((float)mHueSB.getProgress());
                 mHueTV.setText(getResources().getString(R.string.hueProgress, progress).toUpperCase());
-//                keyString = HKEY;
-//                rgbValue = mModel.getHue();
                 break;
 //
             case R.id.saturationSB:
                 mModel.setSaturation((float)mSaturationSB.getProgress());
                 mSaturationTV.setText(getResources().getString(R.string.saturationProgress, progress).toUpperCase());
-//                keyString = SKEY;
-//                rgbValue = mModel.getSaturation();
                 break;
 
             case R.id.brightnessSB:
                 mModel.setBrightness((float) mBrightnessSB.getProgress());
                 mBrightnessTV.setText(getResources().getString(R.string.brightnessProgress, progress).toUpperCase());
-//                keyString = BKEY;
-//                rgbValue = mModel.getBrightness();
                 break;
 
         }
@@ -252,7 +246,6 @@ public class MainActivity extends Activity implements Observer, SeekBar.OnSeekBa
         this.updateHueSB();
         this.updateSaturationSB();
         this.updateBrightnessB();
-//        this.updateAlphaSB();
     }
 
     public void onClick(View view) {
